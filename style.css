@@ -2,9 +2,10 @@ body {
     font-family: 'Lato', sans-serif;
 }
 
-#treeview {
+#tree-container {
     max-width: 600px;
     margin: 0 auto;
+    color: #073f57;
 }
 
 .wrapper {
@@ -14,6 +15,13 @@ body {
 .title {
     color: #073f57;
     margin-bottom: 30px;
+}
+
+.vakata-context ul:last-child,
+a.vakata-context-parent,
+.vakata-context li>a .vakata-contextmenu-sep,
+.vakata-context-separator {
+    display: none !important;
 }
 
 .buttons {
@@ -27,19 +35,27 @@ body {
     margin: 3px;
 }
 
-#show-list, #collapse-list {
-    height: 46px;
+#show-list,
+#collapse-list,
+.vakata-context li>a,
+.vakata-context li>a:focus,
+#sort-btn {
+    height: 31px;
     width: auto;
     border-radius: 0;
     background-color: #073f57;
     color: #ffffff;
     border: none;
+    text-shadow: none !important;
 }
 
 #show-list:hover,
 #collapse-list:hover,
 #show-list:focus,
-#collapse-list:focus {
+#collapse-list:focus,
+.vakata-context li>a:hover,
+#sort-btn:hover,
+#sort-btn:focus {
     background-color: #1e5c77;
     color: #ffffff;
     transition: all 0.5s ease-in-out;
