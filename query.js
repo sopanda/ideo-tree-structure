@@ -8,8 +8,7 @@ $(document).ready(function () {
                     return {
                         'id': node.id
                     };
-                },
-                dataType: "json"
+                }
             },
             'check_callback': true,
             'themes': {
@@ -43,6 +42,16 @@ $(document).ready(function () {
             .fail(function () {
                 data.instance.refresh();
             });
+    }).bind("move_node.jstree", function (e, data) { 
+        console.log(data);
+        $.get('response.php?operation=move_node', {
+            'id': data.node.id,
+            'new_parent': data.parent
+        })
+        .fail(function () {
+            data.instance.refresh();
+            console.log("fail to move");
+        });
     });
 
     $("#show-list").on("click", function (e) {
@@ -56,5 +65,4 @@ $(document).ready(function () {
     $("#sort-btn").on("click", function (e) {
 
     });
-
 });

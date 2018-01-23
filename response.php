@@ -19,7 +19,7 @@ if(isset($_GET['operation'])) {
 				$node = isset($_GET['id']) && $_GET['id'] !== '#' ? (int)$_GET['id'] : 0;
 				$sql = "SELECT * FROM `drzewko` ";
 				$res = mysqli_query($conn, $sql) or die("database error:". mysqli_error($conn));
-				if($res->num_rows <= 0){
+				if($res->num_rows <= 0) {
 				 //add condition when result is zero
 				} else {
 					//iterate on results row and create new index array of data
@@ -35,7 +35,6 @@ if(isset($_GET['operation'])) {
 				   // Empty data class (so that json_encode adds "data: {}" ) 
 				   $itemsByReference[$item['id']]['data'] = new StdClass();
 				}
-
 				// Set items as children of the relevant parent item.
 				foreach($data as $key => &$item)
 				   if($item['parent_id'] && isset($itemsByReference[$item['parent_id']]))
@@ -51,16 +50,13 @@ if(isset($_GET['operation'])) {
 				break;
 			case 'create_node':
 				$node = isset($_GET['id']) && $_GET['id'] !== '#' ? (int)$_GET['id'] : 0;
-				
 				$nodeText = isset($_GET['text']) && $_GET['text'] !== '' ? $_GET['text'] : '';
 				$sql ="INSERT INTO `drzewko` (`name`, `text`, `parent_id`) VALUES('".$nodeText."', '".$nodeText."', '".$node."')";
 				mysqli_query($conn, $sql);
-				
 				$result = array('id' => mysqli_insert_id($conn));
 				break;
 			case 'rename_node':
 				$node = isset($_GET['id']) && $_GET['id'] !== '#' ? (int)$_GET['id'] : 0;
-				//print_R($_GET);
 				$nodeText = isset($_GET['text']) && $_GET['text'] !== '' ? $_GET['text'] : '';
 				$sql ="UPDATE `drzewko` SET `name`='".$nodeText."',`text`='".$nodeText."' WHERE `id`= '".$node."'";
 				mysqli_query($conn, $sql);
@@ -68,6 +64,12 @@ if(isset($_GET['operation'])) {
 			case 'delete_node':
 				$node = isset($_GET['id']) && $_GET['id'] !== '#' ? (int)$_GET['id'] : 0;
 				$sql ="DELETE FROM `drzewko` WHERE `id`= '".$node."'";
+				mysqli_query($conn, $sql);
+				break;
+			case 'move_node':
+				$node = isset($_GET['id']) && $_GET['id'] !== '#' ? (int)$_GET['id'] : 0;
+				$new_par = isset($_GET['new_parent']) && $_GET['new_parent'] !== '' ? $_GET['new_parent'] : '';
+				$sql ="UPDATE `drzewko` SET `parent_id`='".$new_par."' WHERE `id`= '".$node."'";
 				mysqli_query($conn, $sql);
 				break;
 			default:

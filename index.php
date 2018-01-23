@@ -20,7 +20,7 @@ include("response.php");
             <div class="buttons">
                 <button class="btn btn-primary" id="show-list">Rozwiń listę</button>
                 <button class="btn btn-primary" id="collapse-list">Schowaj listę</button>
-                <button class="btn btn-primary" id="sort-btn">Sortuj</button>
+                <!-- <button class="btn btn-primary" id="sort-btn">Sortuj</button> -->
             </div>
         </div>
         <div id="tree-container" class="treeview"></div>
