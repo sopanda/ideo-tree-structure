@@ -43,25 +43,26 @@ $(document).ready(function () {
                 });
         }
     }).on('delete_node.jstree', function (e, data) {
-        // $.get('response.php?operation=delete_node', {
-        //         'id': data.node.id
-        //     })
-        //     .fail(function () {
-        //         data.instance.refresh();
-        //     });
+        e.preventDefault();
         $("#myModal").modal('show');
-        // $("#deleteWithChild").on("click", function (e) {
-        //     $.get('response.php?operation=delete_node', {
-        //             'id': data.node.id
-        //         })
-        //         .fail(function () {
-        //             data.instance.refresh();
-        //         });
-        // });
+        $("#deleteWithChild").on("click", function (e) {
+            $.get('response.php?operation=delete_withChild', {
+                    'id': data.node.id
+                })
+                .done(function() {
+                    $("#tree-container").jstree(true).refresh();
+                })
+                .fail(function () {
+                    data.instance.refresh();
+                });
+        });
         $("#deleteOnlyMe").on("click", function (e) {
             $.get('response.php?operation=delete_onlyMe', {
                     'id': data.node.id,
                     'node_parent': data.node.parent
+                })
+                .done(function() {
+                    $("#tree-container").jstree(true).refresh();
                 })
                 .fail(function () { 
                     data.instance.refresh();
@@ -87,6 +88,5 @@ $(document).ready(function () {
         $('#tree-container').jstree('close_all');
     });
 
-    
 
 });
