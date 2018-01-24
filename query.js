@@ -8,7 +8,8 @@ $(document).ready(function () {
                     return {
                         'id': node.id
                     };
-                }
+                },
+                "dataType" : "json"
             },
             'check_callback': true,
             'themes': {
@@ -49,7 +50,7 @@ $(document).ready(function () {
             $.get('response.php?operation=delete_withChild', {
                     'id': data.node.id
                 })
-                .done(function() {
+                .done(function () {
                     $("#tree-container").jstree(true).refresh();
                 })
                 .fail(function () {
@@ -61,10 +62,10 @@ $(document).ready(function () {
                     'id': data.node.id,
                     'node_parent': data.node.parent
                 })
-                .done(function() {
+                .done(function () {
                     $("#tree-container").jstree(true).refresh();
                 })
-                .fail(function () { 
+                .fail(function () {
                     data.instance.refresh();
                 });
         });
@@ -88,5 +89,13 @@ $(document).ready(function () {
         $('#tree-container').jstree('close_all');
     });
 
+    $("#new-hl").on("click", function (e) {
+        $('#tree-container').jstree().create_node('#', {
+            "id": "ajson5",
+            "text": "newly added"
+        }, "last", function () {
+            alert("done");
+        });
+    });
 
 });

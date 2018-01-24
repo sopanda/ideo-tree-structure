@@ -20,7 +20,7 @@ include("response.php");
             <div class="buttons">
                 <button class="btn btn-primary single-btn" id="show-list">Rozwiń listę</button>
                 <button class="btn btn-primary single-btn" id="collapse-list">Schowaj listę</button>
-                <button class="btn btn-primary single-btn" id="sort-btn">Modal</button>
+                <button class="btn btn-primary single-btn" id="new-hl">New High Level</button>
             </div>
         </div>
         <div id="tree-container" class="treeview"></div>

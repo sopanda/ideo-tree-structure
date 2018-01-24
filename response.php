@@ -45,7 +45,12 @@ if(isset($_GET['operation'])) {
 					  unset($data[$key]);
 				}
 				}
-				$result = $data;
+				/* FIXED BUG WITH DATA */
+				$result = array();
+				foreach($data as $rec)
+				{
+					$result[] = $rec;
+				}
 				break;
 			case 'create_node':
 				$node = isset($_GET['id']) && $_GET['id'] !== '#' ? (int)$_GET['id'] : 0;
