@@ -28,13 +28,20 @@ $(document).ready(function () {
                 data.instance.refresh();
             });
     }).on('rename_node.jstree', function (e, data) {
-        $.get('response.php?operation=rename_node', {
+        var new_Name = data.text;
+        var myReg = new RegExp("[^A-Za-z0-9]");
+        if (myReg.test(new_Name)) {
+            alert("Special characters are not allowed.");
+            $("#tree-container").jstree(true).refresh();
+        } else {
+            $.get('response.php?operation=rename_node', {
                 'id': data.node.id,
                 'text': data.text
             })
             .fail(function () {
                 data.instance.refresh();
             });
+        }
     }).on('delete_node.jstree', function (e, data) {
         $.get('response.php?operation=delete_node', {
                 'id': data.node.id
@@ -42,16 +49,16 @@ $(document).ready(function () {
             .fail(function () {
                 data.instance.refresh();
             });
-    }).bind("move_node.jstree", function (e, data) { 
+    }).bind("move_node.jstree", function (e, data) {
         console.log(data);
         $.get('response.php?operation=move_node', {
-            'id': data.node.id,
-            'new_parent': data.parent
-        })
-        .fail(function () {
-            data.instance.refresh();
-            console.log("fail to move");
-        });
+                'id': data.node.id,
+                'new_parent': data.parent
+            })
+            .fail(function () {
+                data.instance.refresh();
+                console.log("fail to move");
+            });
     });
 
     $("#show-list").on("click", function (e) {
