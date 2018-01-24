@@ -31,18 +31,22 @@ $(document).ready(function () {
     }).on('rename_node.jstree', function (e, data) {
         var new_Name = data.text;
         var myReg = new RegExp("[^A-Za-z0-9 ]");
-        if (myReg.test(new_Name)) {
-            alert("Special characters are not allowed.");
-            $("#tree-container").jstree(true).refresh();
-        } else {
-            console.log(data);
-            $.get('response.php?operation=rename_node', {
-                    'id': data.node.id,
-                    'text': data.text
-                })
-                .fail(function () {
-                    data.instance.refresh();
-                });
+        while(true) {
+            if (myReg.test(new_Name)) {
+                alert("Special characters are not allowed.");
+                $("#tree-container").jstree(true).refresh();
+                return false;
+            } else {
+                console.log(data);
+                $.get('response.php?operation=rename_node', {
+                        'id': data.node.id,
+                        'text': data.text
+                    })
+                    .fail(function () {
+                        data.instance.refresh();
+                    });
+                    return false;
+        }
         }
     }).on('delete_node.jstree', function (e, data) {
         e.preventDefault();
@@ -83,12 +87,7 @@ $(document).ready(function () {
                 data.instance.refresh();
                 console.log("fail to move");
             });
-    }).bind('changed.jstree', function(e, data) {
-        category = data.node.text;
-        console.log('category ' + category);
-        console.log('changed node: ', data);
     });
-
 
     $("#show-list").on("click", function (e) {
         $('#tree-container').jstree('open_all');
