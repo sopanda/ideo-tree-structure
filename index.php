@@ -30,15 +30,15 @@ include("response.php");
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">Delete</h4>
+                        <h4 class="modal-title text-center">Delete</h4>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body text-center">
                         <p>Do you want delete parent with childs?</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger single-btn" id="deleteWithChild" data-dismiss="modal">Yes</button>
                         <button type="button" class="btn btn-danger single-btn" id="deleteOnlyMe" data-dismiss="modal">Only parent</button>
-                        <button type="button" class="btn btn-primary single-btn" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary single-btn" data-dismiss="modal" id="close-modal">Close</button>
                     </div>
                 </div>
             </div>

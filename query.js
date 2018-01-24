@@ -99,4 +99,8 @@ $(document).ready(function () {
         });
     });
 
+    $("#close-modal").on("click", function (e) {
+        $("#tree-container").jstree(true).refresh();
+    });
+
 });
