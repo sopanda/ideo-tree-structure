@@ -1,6 +1,6 @@
 $(document).ready(function () {
     $('#tree-container').jstree({
-        'plugins': ['contextmenu', 'dnd', 'wholerow', "sort"],
+        'plugins': ['contextmenu', 'dnd', 'wholerow'],
         'core': {
             'data': {
                 'url': 'response.php?operation=get_node',
