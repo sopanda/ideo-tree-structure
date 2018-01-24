@@ -30,11 +30,12 @@ $(document).ready(function () {
             });
     }).on('rename_node.jstree', function (e, data) {
         var new_Name = data.text;
-        var myReg = new RegExp("[^A-Za-z0-9]");
+        var myReg = new RegExp("[^A-Za-z0-9 ]");
         if (myReg.test(new_Name)) {
             alert("Special characters are not allowed.");
             $("#tree-container").jstree(true).refresh();
         } else {
+            console.log(data);
             $.get('response.php?operation=rename_node', {
                     'id': data.node.id,
                     'text': data.text
@@ -92,9 +93,9 @@ $(document).ready(function () {
     $("#new-hl").on("click", function (e) {
         $('#tree-container').jstree().create_node('#', {
             "id": "ajson5",
-            "text": "newly added"
+            "text": "Please, give me name"
         }, "last", function () {
-            alert("done");
+            console.log("new parent node added");
         });
     });
 
