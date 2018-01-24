@@ -1,4 +1,3 @@
-
 <?php
 $servername = "55.mysql.ideo";
 $username = "root";
@@ -65,6 +64,13 @@ if(isset($_GET['operation'])) {
 				$node = isset($_GET['id']) && $_GET['id'] !== '#' ? (int)$_GET['id'] : 0;
 				$sql ="DELETE FROM `drzewko` WHERE `id`= '".$node."'";
 				mysqli_query($conn, $sql);
+				break;
+			case 'delete_onlyMe':
+				$node = isset($_GET['id']) && $_GET['id'] !== '#' ? (int)$_GET['id'] : 0;
+				$nodeParent = isset($_GET['node_parent']) && $_GET['node_parent'] !== '' ? $_GET['node_parent'] : '';
+				$sqlNewParent = "UPDATE `drzewko` SET `parent_id`='".$nodeParent."' WHERE `parent_id`='".$node."'";
+				$sql ="DELETE FROM `drzewko` WHERE `id`= '".$node."'";
+				// mysqli_query($conn, $sql);
 				break;
 			case 'move_node':
 				$node = isset($_GET['id']) && $_GET['id'] !== '#' ? (int)$_GET['id'] : 0;

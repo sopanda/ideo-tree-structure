@@ -35,11 +35,9 @@ a.vakata-context-parent,
     margin: 3px;
 }
 
-#show-list,
-#collapse-list,
 .vakata-context li>a,
 .vakata-context li>a:focus,
-#sort-btn {
+.single-btn {
     height: 31px;
     width: auto;
     border-radius: 0;
@@ -49,13 +47,9 @@ a.vakata-context-parent,
     text-shadow: none !important;
 }
 
-#show-list:hover,
-#collapse-list:hover,
-#show-list:focus,
-#collapse-list:focus,
-.vakata-context li>a:hover,
-#sort-btn:hover,
-#sort-btn:focus {
+.single-btn:hover,
+.single-btn:focus,
+.vakata-context li>a:hover {
     background-color: #1e5c77;
     color: #ffffff;
     transition: all 0.5s ease-in-out;

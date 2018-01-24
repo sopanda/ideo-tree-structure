@@ -1,6 +1,6 @@
 $(document).ready(function () {
     $('#tree-container').jstree({
-        'plugins': ['contextmenu', 'dnd', 'wholerow', 'types'],
+        'plugins': ['contextmenu', 'dnd', 'wholerow', "sort"],
         'core': {
             'data': {
                 'url': 'response.php?operation=get_node',
@@ -35,20 +35,38 @@ $(document).ready(function () {
             $("#tree-container").jstree(true).refresh();
         } else {
             $.get('response.php?operation=rename_node', {
-                'id': data.node.id,
-                'text': data.text
-            })
-            .fail(function () {
-                data.instance.refresh();
-            });
+                    'id': data.node.id,
+                    'text': data.text
+                })
+                .fail(function () {
+                    data.instance.refresh();
+                });
         }
     }).on('delete_node.jstree', function (e, data) {
-        $.get('response.php?operation=delete_node', {
-                'id': data.node.id
-            })
-            .fail(function () {
-                data.instance.refresh();
-            });
+        // $.get('response.php?operation=delete_node', {
+        //         'id': data.node.id
+        //     })
+        //     .fail(function () {
+        //         data.instance.refresh();
+        //     });
+        $("#myModal").modal('show');
+        // $("#deleteWithChild").on("click", function (e) {
+        //     $.get('response.php?operation=delete_node', {
+        //             'id': data.node.id
+        //         })
+        //         .fail(function () {
+        //             data.instance.refresh();
+        //         });
+        // });
+        $("#deleteOnlyMe").on("click", function (e) {
+            $.get('response.php?operation=delete_onlyMe', {
+                    'id': data.node.id,
+                    'node_parent': data.node.parent
+                })
+                .fail(function () { 
+                    data.instance.refresh();
+                });
+        });
     }).bind("move_node.jstree", function (e, data) {
         console.log(data);
         $.get('response.php?operation=move_node', {
@@ -69,7 +87,6 @@ $(document).ready(function () {
         $('#tree-container').jstree('close_all');
     });
 
-    $("#sort-btn").on("click", function (e) {
+    
 
-    });
 });
