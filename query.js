@@ -74,13 +74,21 @@ $(document).ready(function () {
         console.log(data);
         $.get('response.php?operation=move_node', {
                 'id': data.node.id,
-                'new_parent': data.parent
+                'new_parent': data.parent,
+                'old_parent': data.old_parent,
+                'old_position': data.old_position,
+                'new_position': data.position
             })
             .fail(function () {
                 data.instance.refresh();
                 console.log("fail to move");
             });
+    }).bind('changed.jstree', function(e, data) {
+        category = data.node.text;
+        console.log('category ' + category);
+        console.log('changed node: ', data);
     });
+
 
     $("#show-list").on("click", function (e) {
         $('#tree-container').jstree('open_all');

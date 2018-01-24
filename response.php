@@ -16,7 +16,7 @@ if(isset($_GET['operation'])) {
 		switch($_GET['operation']) {
 			case 'get_node':
 				$node = isset($_GET['id']) && $_GET['id'] !== '#' ? (int)$_GET['id'] : 0;
-				$sql = "SELECT * FROM `drzewko` ";
+				$sql = "SELECT * FROM `drzewko` ORDER BY `parent_id`, `position`";
 				$res = mysqli_query($conn, $sql) or die("database error:". mysqli_error($conn));
 				if($res->num_rows <= 0) {
 				 //add condition when result is zero
@@ -80,9 +80,24 @@ if(isset($_GET['operation'])) {
 				break;
 			case 'move_node':
 				$node = isset($_GET['id']) && $_GET['id'] !== '#' ? (int)$_GET['id'] : 0;
+				$new_position = isset($_GET['new_position']) && $_GET['new_position'] !== '' ? $_GET['new_position'] : '';
+				$old_position = isset($_GET['old_position']) && $_GET['old_position'] !== '' ? $_GET['old_position'] : '';
 				$new_par = isset($_GET['new_parent']) && $_GET['new_parent'] !== '' ? $_GET['new_parent'] : '';
-				$sql ="UPDATE `drzewko` SET `parent_id`='".$new_par."' WHERE `id`= '".$node."'";
-				mysqli_query($conn, $sql);
+				$old_par = isset($_GET['old_parent']) && $_GET['old_parent'] !== '' ? $_GET['old_parent'] : '';
+				$old_position += 1;
+				$new_position += 1;
+				function excludePosition($conn, $old_par, $old_position) {
+					$sql = "UPDATE `drzewko` SET `position` = `position` - 1 WHERE `parent_id`='".$old_par."' AND `position` > '".$old_position."'";
+					mysqli_query($conn, $sql);
+				}
+				function includePosition($conn, $node, $new_par, $new_position) {
+					$sql1 = "UPDATE `drzewko` SET `position` = `position` + 1 WHERE `parent_id`='".$new_par."' AND `position` >= '".$new_position."'";
+					mysqli_query($conn, $sql1);
+					$sql2 = "UPDATE `drzewko` SET `parent_id` = '".$new_par."', `position` = '".$new_position."' WHERE `id`='".$node."'";
+					mysqli_query($conn, $sql2);
+				}
+				excludePosition($conn, $old_par, $old_position);
+    			includePosition($conn, $node, $new_par, $new_position);
 				break;
 			default:
 				throw new Exception('Unsupported operation: ' . $_GET['operation']);
