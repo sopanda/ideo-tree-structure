@@ -29,6 +29,7 @@ $(document).ready(function () {
                 data.instance.refresh();
             });
     }).on('rename_node.jstree', function (e, data) {
+        console.log(data);
         var new_Name = data.text;
         var myReg = new RegExp("[^A-Za-z0-9 ]");
         while(true) {
@@ -50,6 +51,7 @@ $(document).ready(function () {
         }
     }).on('delete_node.jstree', function (e, data) {
         e.preventDefault();
+        console.log(data);
         $("#myModal").modal('show');
         $("#deleteWithChild").on("click", function (e) {
             $.get('response.php?operation=delete_withChild', {
