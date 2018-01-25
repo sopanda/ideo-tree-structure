@@ -10,6 +10,7 @@ include("response.php");
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="./jstree/dist/themes/default/style.min.css" />
     <link rel="stylesheet" href="./style.css" />
+    <link rel="shortcut icon" href="#">
     <title>Europe</title>
 </head>
 
