@@ -47,27 +47,35 @@ if(isset($_GET['operation'])) {
 				$statement ->bindValue(':id', $node);
 				$statement->execute();
 				break;
-			// case 'move_node':
-			// 	$node = isset($_GET['id']) && $_GET['id'] !== '#' ? (int)$_GET['id'] : 0;
-			// 	$new_position = isset($_GET['new_position']) && $_GET['new_position'] !== '' ? $_GET['new_position'] : '';
-			// 	$old_position = isset($_GET['old_position']) && $_GET['old_position'] !== '' ? $_GET['old_position'] : '';
-			// 	$new_par = isset($_GET['new_parent']) && $_GET['new_parent'] !== '' ? $_GET['new_parent'] : '';
-			// 	$old_par = isset($_GET['old_parent']) && $_GET['old_parent'] !== '' ? $_GET['old_parent'] : '';
-			// 	$old_position += 1;
-			// 	$new_position += 1;
-			// 	function excludePosition($conn, $old_par, $old_position) {
-			// 		$sql = "UPDATE `drzewko` SET `position` = `position` - 1 WHERE `parent_id`='".$old_par."' AND `position` > '".$old_position."'";
-			// 		// mysqli_query($conn, $sql);
-			// 	}
-			// 	function includePosition($conn, $node, $new_par, $new_position) {
-			// 		$sql1 = "UPDATE `drzewko` SET `position` = `position` + 1 WHERE `parent_id`='".$new_par."' AND `position` >= '".$new_position."'";
-			// 		// mysqli_query($conn, $sql1);
-			// 		$sql2 = "UPDATE `drzewko` SET `parent_id` = '".$new_par."', `position` = '".$new_position."' WHERE `id`='".$node."'";
-			// 		// mysqli_query($conn, $sql2);
-			// 	}
-			// 	excludePosition($conn, $old_par, $old_position);
-    		// 	includePosition($conn, $node, $new_par, $new_position);
-			// 	break;
+			case 'move_node':
+				$node = isset($_GET['id']) && $_GET['id'] !== '#' ? (int)$_GET['id'] : 0;
+				$new_position = isset($_GET['new_position']) && $_GET['new_position'] !== '' ? $_GET['new_position'] : '';
+				$old_position = isset($_GET['old_position']) && $_GET['old_position'] !== '' ? $_GET['old_position'] : '';
+				$new_par = isset($_GET['new_parent']) && $_GET['new_parent'] !== '' ? $_GET['new_parent'] : '';
+				$old_par = isset($_GET['old_parent']) && $_GET['old_parent'] !== '' ? $_GET['old_parent'] : '';
+				$old_position += 1;
+				$new_position += 1;
+				function excludePosition($pdo, $old_par, $old_position) {
+					$exclude = $pdo->prepare("UPDATE drzewko SET position = position - 1 WHERE parent_id = :old_par AND position > :old_pos");
+					$exclude ->bindValue(':old_par', $old_par);
+					$exclude ->bindValue(':old_pos', $old_pos);
+					$exclude->execute();
+				}
+				function includePosition($pdo, $node, $new_par, $new_position) {
+					$include = $pdo->prepare("UPDATE drzewko SET position = position + 1 WHERE parent_id = :new_par AND position >= :new_pos");
+					$include ->bindValue(':new_par', $new_par);
+					$include ->bindValue(':new_pos', $new_position);
+					$include -> execute();
+
+					$includeS = $pdo->prepare("UPDATE drzewko SET parent_id = :new_par, position = :new_pos WHERE id = :id");
+					$includeS ->bindValue(':new_par', $new_par);
+					$includeS ->bindValue(':new_pos', $new_position);
+					$includeS ->bindValue(':id', $node);
+					$includeS -> execute();
+				}
+				excludePosition($pdo, $old_par, $old_position);
+    			includePosition($pdo, $node, $new_par, $new_position);
+				break;
 			default:
 				throw new Exception('Unsupported operation: ' . $_GET['operation']);
 				break;
