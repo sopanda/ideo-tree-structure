@@ -7,7 +7,7 @@ if(isset($_GET['operation'])) {
 			case 'get_node':
 				$sth = $pdo->query('SELECT id AS id, IF (parent_id = 0, "#", parent_id) AS parent, name as text FROM drzewko ORDER BY parent_id, position');
 				$categories = array();
-				while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+				foreach ($sth->fetchAll(PDO::FETCH_ASSOC) as $row) {
 					array_push($categories, array(
 						'id' => $row['id'],
 						'parent' => $row['parent'],
@@ -71,7 +71,7 @@ if(isset($_GET['operation'])) {
 					$includeS ->bindValue(':new_par', $new_par);
 					$includeS ->bindValue(':new_pos', $new_position);
 					$includeS ->bindValue(':id', $node);
-					$includeS -> execute();
+					$includeS ->execute();
 				}
 				excludePosition($pdo, $old_par, $old_position);
     			includePosition($pdo, $node, $new_par, $new_position);
